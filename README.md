@@ -22,12 +22,14 @@ short_name_prefix: LIN, group: India Roaming Users
 short_name_prefix: LFR, group: France Roaming Users
 short_name_prefix: NAR, group: US Roaming Users
 short_name_prefix: LNAR, group: US Roaming Users
+
 ---------------------------------------
 Endpoints to remap:
 fqdn: LNAR-A12.corp.local, current_group: All BloxOne Endpoints (Default), future_group US Roaming Users
 fqdn: lnar-s123l.corp.local, current_group: All BloxOne Endpoints (Default), future_group US Roaming Users
 fqdn: nar-fo23.corp.local, current_group: All BloxOne Endpoints (Default), future_group US Roaming Users
 fqdn: NAR-FO23.corp.local, current_group: All BloxOne Endpoints (Default), future_group US Roaming Users
+
 ---------------------------------------
 Adding ['42b3a1185e76b77b476fb3bceeeb9bdc', '34d52390218f5c3118d212687c4981d5', '5d3185127eebb634c85fa28aed1ddf73', '9b562d61dece28d64504fe8258076f55'] to group: US Roaming Users
 Group before: 
