@@ -23,7 +23,7 @@ def build_mapping_table(file):
 
 def get_endpoints_to_map(hostname,api_token,table):	
     try:
-        response = requests.get("https://{}/api/atcep/v1/roaming_devices".format(hostname), headers=headers, verify=True, timeout=(30,30))
+        response = requests.get("https://{}/api/atcep/v1/roaming_devices?_filter=default_group==\"true\"".format(hostname), headers=headers, verify=True, timeout=(300,300))
         try:
             r_json = response.json()
         except:
@@ -66,13 +66,12 @@ def map_endpoints_to_groups(hostname,api_token,endpoints_to_map,endpoint_groups)
             print("Adding {} to group: {}".format(endpoints_to_map[group], group))
             for endpoint_group in endpoint_groups:
             	if endpoint_group['name'] == group:
-		            #endpoint_group.pop("created_time")
-		            #endpoint_group.pop("updated_time")
-		            print("Group before: \n{}".format(json.dumps(endpoint_group, indent=4, sort_keys=True)))
-		            endpoint_group["roaming_devices"]= endpoint_group["roaming_devices"] + endpoints_to_map[group]
+		            endpoint_group.pop("roaming_devices")
+		            #print("Group before: \n{}".format(json.dumps(endpoint_group, indent=4, sort_keys=True)))
+		            endpoint_group["roaming_devices_added"]= endpoints_to_map[group]
 		            print("Group after: \n{}".format(json.dumps(endpoint_group, indent=4, sort_keys=True)))
 		            try:
-		                response = requests.put("https://{}/api/atcep/v1/roaming_device_groups/{}".format(hostname,endpoint_group['id']),headers=headers, data=json.dumps(endpoint_group, indent=4, sort_keys=True), verify=True, timeout=(30,30))
+		                response = requests.patch("https://{}/api/atcep/v1/roaming_device_groups/{}".format(hostname,endpoint_group['id']),headers=headers, data=json.dumps(endpoint_group, indent=4, sort_keys=True), verify=True, timeout=(30,30))
 		                try:
 		                    print(response.json())
 		                except:
