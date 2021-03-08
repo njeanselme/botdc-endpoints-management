@@ -1,5 +1,6 @@
 
 map endpoints to endpoint_groups based on naming policy
+
 Support for mass disabling and mass removal added
 
 Looks for mapping.csv for endpoint name to endpoint_group name:
