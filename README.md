@@ -5,21 +5,14 @@ Support for mass disabling and mass removal added
 
 Looks for mapping.csv for endpoint name to endpoint_group name:
 
-short_name_prefix,group
-
-IN,"India Roaming Users"
-
-LIN,"India Roaming Users"
-
-LFR,"France Roaming Users"
-
-NAR,"US Roaming Users"
-
-LNAR,"US Roaming Users"
-
-WIN-G446EQHBDP6,disabled
-
-WIN-G446EQHBDP7,deleted
+short_name_prefix,group  
+IN,"India Roaming Users"   
+LIN,"India Roaming Users"  
+LFR,"France Roaming Users"  
+NAR,"US Roaming Users"  
+LNAR,"US Roaming Users"  
+WIN-G446EQHBDP6,disabled  
+WIN-G446EQHBDP7,deleted  
 
 Run example
 
