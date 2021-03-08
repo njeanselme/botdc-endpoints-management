@@ -17,27 +17,28 @@ WIN-G446EQHBDP7,deleted
 Run example
 
 ----------
-python3 ./botd-endpoints-to-endpoint_groups.py 
-Mapping table:
-short_name_prefix: IN, group: India Roaming Users
-short_name_prefix: LIN, group: India Roaming Users
-short_name_prefix: LFR, group: France Roaming Users
-short_name_prefix: NAR, group: US Roaming Users
-short_name_prefix: LNAR, group: US Roaming Users
+python3 ./botd-endpoints-to-endpoint_groups.py   
+Mapping table:  
+short_name_prefix: IN, group: India Roaming Users  
+short_name_prefix: LIN, group: India Roaming Users  
+short_name_prefix: LFR, group: France Roaming Users  
+short_name_prefix: NAR, group: US Roaming Users  
+short_name_prefix: LNAR, group: US Roaming Users  
+short_name_prefix: WIN-G446EQHBDP6, group: disabled  
+short_name_prefix: WIN-G446EQHBDP7, group: deleted  
 
 ---------------------------------------
-Endpoints to remap:
-fqdn: LNAR-A12.corp.local, current_group: All BloxOne Endpoints (Default), future_group US Roaming Users
-fqdn: lnar-s123l.corp.local, current_group: All BloxOne Endpoints (Default), future_group US Roaming Users
-fqdn: nar-fo23.corp.local, current_group: All BloxOne Endpoints (Default), future_group US Roaming Users
-fqdn: NAR-FO23.corp.local, current_group: All BloxOne Endpoints (Default), future_group US Roaming Users
-fqdn: WIN-G446EQHBDP6, current_group: All BloxOne Endpoints (Default), future_group disabled
-fqdn: WIN-G446EQHBDP7, current_group: All BloxOne Endpoints (Default), future_group deleted
-
+Endpoints to remap:  
+fqdn: LNAR-A12.corp.local, current_group: All BloxOne Endpoints (Default), future_group US Roaming Users  
+fqdn: lnar-s123l.corp.local, current_group: All BloxOne Endpoints (Default), future_group US Roaming Users  
+fqdn: nar-fo23.corp.local, current_group: All BloxOne Endpoints (Default), future_group US Roaming Users  
+fqdn: NAR-FO23.corp.local, current_group: All BloxOne Endpoints (Default), future_group US Roaming Users  
+fqdn: WIN-G446EQHBDP6, current_group: All BloxOne Endpoints (Default), future_group disabled    
+fqdn: WIN-G446EQHBDP7, current_group: All BloxOne Endpoints (Default), future_group deleted  
 
 ---------------------------------------
-Adding ['42b3a1185e76b77b476fb3bceeeb9bdc', '34d52390218f5c3118d212687c4981d5', '5d3185127eebb634c85fa28aed1ddf73', '9b562d61dece28d64504fe8258076f55'] to group: US Roaming Users
-Group before: 
+Adding ['42b3a1185e76b77b476fb3bceeeb9bdc', '34d52390218f5c3118d212687c4981d5', '5d3185127eebb634c85fa28aed1ddf73', '9b562d61dece28d64504fe8258076f55'] to group: US Roaming Users  
+Group before:   
 {
     "created_time": "2020-04-07T09:20:32Z",
     "description": "",
@@ -90,8 +91,8 @@ Group after:
     "updated_time": "2020-04-07T09:20:52Z"
 }
 
-Disabling ['d255f7e8e78f5bd714aa119e1646f18f', 'b6fa87c1fe826ad2ba3d23c804202a10']
-[...]
-Deleting ['b6fa87c1fe826ad2ba3d23c804202a10']
-{'results': []}
+Disabling ['d255f7e8e78f5bd714aa119e1646f18f', 'b6fa87c1fe826ad2ba3d23c804202a10']  
+[...]  
+Deleting ['b6fa87c1fe826ad2ba3d23c804202a10']  
+{'results': []}   
 
