@@ -6,7 +6,7 @@ import re
 import agate
 
 hostname = "csp.infoblox.com"
-api_token = ""  # Your csp API key here
+api_token = "b79cbe90aa9cf3931189533a63d76fcb"  # Your csp API key here
 headers = {"Authorization": "Token {}".format(api_token)}
 
 file = "mapping.csv"
@@ -101,7 +101,7 @@ def map_endpoints_to_groups(hostname, api_token, endpoints_to_map, endpoint_grou
                     url = "https://{}/api/atcep/v1/roaming_devices".format(hostname)
                     data = {}
                     data["administrative_status"] = "DELETED"
-                    data["client_ids"] = endpoints_to_map[group]
+                    data["client_ids"] = list(set(endpoints_to_map[group]))
                     try:
                         response = requests.put(url, headers=headers, data=json.dumps(data, indent=4), verify=True, timeout=(30, 30))
                         try:
@@ -116,7 +116,7 @@ def map_endpoints_to_groups(hostname, api_token, endpoints_to_map, endpoint_grou
                 for endpoint_group in endpoint_groups:
                     if endpoint_group['name'] == group:
                         print("Group before: \n{}".format(json.dumps(endpoint_group, indent=4, sort_keys=True)))
-                        endpoint_group["roaming_devices"] = endpoint_group["roaming_devices"] + endpoints_to_map[group]
+                        endpoint_group["roaming_devices"] = list(set(endpoint_group["roaming_devices"] + endpoints_to_map[group]))
                         print("Group after: \n{}".format(json.dumps(endpoint_group, indent=4, sort_keys=True)))
                         url= "https://{}/api/atcep/v1/roaming_device_groups/{}".format(hostname,endpoint_group['id'])
                         try:
