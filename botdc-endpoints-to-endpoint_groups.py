@@ -15,6 +15,7 @@ delimiter = ","
 
 def build_mapping_table(file):
     table = agate.Table.from_csv(file)
+    table = table.distinct(key='short_name_prefix')
     print('Mapping table:')
     for row in table.rows:
         print("short_name_prefix: {}, group: {}".format(row['short_name_prefix'], row['group']))
@@ -50,12 +51,14 @@ def get_endpoints_to_map(hostname, api_token, table):
         endpoints_to_map[row['group']] = []
 
     print('Endpoints to remap:')
-    for result in r_json:
-        for row in table.rows:
-            if re.match("^{}.*".format(row["short_name_prefix"]), result["name"], re.IGNORECASE):
+
+    for row in table.rows:
+        for result in r_json:
+            if re.match("^{}".format(row["short_name_prefix"]), result["name"], re.IGNORECASE):
                 if not re.match("^{}$".format(row["group"]), result["group_name"], re.IGNORECASE):
                     print("fqdn: {}, current_group: {}, future_group {}".format(result["name"], result["group_name"], row["group"]))
                     endpoints_to_map[row["group"]].append(result["client_id"])
+                break
     print('---------------------------------------')
     return endpoints_to_map
 
@@ -79,15 +82,14 @@ def map_endpoints_to_groups(hostname, api_token, endpoints_to_map, endpoint_grou
 
             if group == "disabled" or group == "deleted":
                 print("Disabling {}".format(endpoints_to_map[group]))
-                # administrative_status: "DISABLED"
-                # client_ids: ["id1","id2"]
+
                 url = "https://{}/api/atcep/v1/roaming_devices".format(hostname)
                 data = {}
                 data["administrative_status"] = "DISABLED"
-                data["client_ids"] = endpoints_to_map[group]
+                data["client_ids"] = list(set(endpoints_to_map[group]))
 
                 try:
-                    response = requests.put(url, headers=headers, data=json.dumps(data, indent=4), verify=True, timeout=(30, 30))
+                    response = requests.put(url, headers=headers, data=json.dumps(data, indent=4), verify=True, timeout=(300, 300))
                     try:
                         print(response.json())
                     except:
@@ -103,7 +105,7 @@ def map_endpoints_to_groups(hostname, api_token, endpoints_to_map, endpoint_grou
                     data["administrative_status"] = "DELETED"
                     data["client_ids"] = list(set(endpoints_to_map[group]))
                     try:
-                        response = requests.put(url, headers=headers, data=json.dumps(data, indent=4), verify=True, timeout=(30, 30))
+                        response = requests.put(url, headers=headers, data=json.dumps(data, indent=4), verify=True, timeout=(300, 300))
                         try:
                             print(response.json())
                         except:
@@ -120,7 +122,7 @@ def map_endpoints_to_groups(hostname, api_token, endpoints_to_map, endpoint_grou
                         print("Group after: \n{}".format(json.dumps(endpoint_group, indent=4, sort_keys=True)))
                         url= "https://{}/api/atcep/v1/roaming_device_groups/{}".format(hostname,endpoint_group['id'])
                         try:
-                            response = requests.put(url, headers=headers, data=json.dumps(endpoint_group, indent=4, sort_keys=True), verify=True, timeout=(30, 30))
+                            response = requests.put(url, headers=headers, data=json.dumps(endpoint_group, indent=4, sort_keys=True), verify=True, timeout=(300, 300))
                             try:
                                 print(response.json())
                             except:
