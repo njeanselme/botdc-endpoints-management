@@ -6,7 +6,7 @@ import re
 import agate
 
 hostname = "csp.infoblox.com"
-api_token = "b79cbe90aa9cf3931189533a63d76fcb"  # Your csp API key here
+api_token = ""  # Your csp API key here
 headers = {"Authorization": "Token {}".format(api_token)}
 
 file = "mapping.csv"
