@@ -119,6 +119,10 @@ def map_endpoints_to_groups(hostname, api_token, endpoints_to_map, endpoint_grou
                     if endpoint_group['name'] == group:
                         print("Group before: \n{}".format(json.dumps(endpoint_group, indent=4, sort_keys=True)))
                         endpoint_group["roaming_devices"] = list(set(endpoint_group["roaming_devices"] + endpoints_to_map[group]))
+                        
+                        if endpoint_group["elb_ip_list"][0] == '':
+                            endpoint_group["elb_ip_list"].clear()
+                        
                         print("Group after: \n{}".format(json.dumps(endpoint_group, indent=4, sort_keys=True)))
                         url= "https://{}/api/atcep/v1/roaming_device_groups/{}".format(hostname,endpoint_group['id'])
                         try:
