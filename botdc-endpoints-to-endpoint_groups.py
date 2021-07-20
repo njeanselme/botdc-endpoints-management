@@ -52,10 +52,10 @@ def get_endpoints_to_map(hostname, api_token, table):
 
     print('Endpoints to remap:')
 
-    for row in table.rows:
-        for result in r_json:
-            if re.match("^{}".format(row["short_name_prefix"]), result["name"], re.IGNORECASE):
-                if not re.match("^{}$".format(row["group"]), result["group_name"], re.IGNORECASE):
+    for result in r_json:
+        for row in table.rows:
+            if re.match("^{}".format(row["short_name_prefix"].lower()), result["name"].lower()):
+                if not re.match("^{}$".format(row["group"]), result["group_name"]):
                     print("fqdn: {}, current_group: {}, future_group {}".format(result["name"], result["group_name"], row["group"]))
                     endpoints_to_map[row["group"]].append(result["client_id"])
                 break
@@ -117,16 +117,17 @@ def map_endpoints_to_groups(hostname, api_token, endpoints_to_map, endpoint_grou
                 print("Adding {} to group: {}".format(endpoints_to_map[group], group))
                 for endpoint_group in endpoint_groups:
                     if endpoint_group['name'] == group:
-                        print("Group before: \n{}".format(json.dumps(endpoint_group, indent=4, sort_keys=True)))
-                        endpoint_group["roaming_devices"] = list(set(endpoint_group["roaming_devices"] + endpoints_to_map[group]))
                         
                         if endpoint_group["elb_ip_list"][0] == '':
                             endpoint_group["elb_ip_list"].clear()
+                            
+                        del endpoint_group["roaming_devices"]
+                        endpoint_group["roaming_devices_added"] = list(endpoints_to_map[group])
                         
-                        print("Group after: \n{}".format(json.dumps(endpoint_group, indent=4, sort_keys=True)))
+                        print("Adding to group {}: \n{}".format(endpoint_group['name'], json.dumps(endpoint_group, indent=4, sort_keys=True)))
                         url= "https://{}/api/atcep/v1/roaming_device_groups/{}".format(hostname,endpoint_group['id'])
                         try:
-                            response = requests.put(url, headers=headers, data=json.dumps(endpoint_group, indent=4, sort_keys=True), verify=True, timeout=(300, 300))
+                            response = requests.patch(url, headers=headers, data=json.dumps(endpoint_group, indent=4, sort_keys=True), verify=True, timeout=(300, 300))
                             try:
                                 print(response.json())
                             except:
